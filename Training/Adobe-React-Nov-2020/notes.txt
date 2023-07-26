@@ -1,0 +1,245 @@
+1. HTML
+    Document
+    XML Vocabulary
+    What?
+2. CSS
+    How?
+
+JavaScript
+    Data Types
+        number, string, boolean
+        undefined, object, function
+
+    Programming Constructs
+        var, if else, switch case, while, for, for in, try catch finally, throw, function
+
+    APIs
+        Array, Object, Math, RegEx, Error, timer (setTimeout, clearTimeout, setInterval, clearInterval)
+
+    1. loosely typed
+    2. dynamic
+        object => map, hash (collection of key/value pairs)
+        Object attributes can be accessed using '.' and '[]' notations
+        object methods are nothing but attributes with a function as a value
+    3. functional
+            functions are objects
+                - can be assigned to variables
+                - can have attributes
+                - can have methods
+                - passed as arguments to other functions
+                - returned as return values from other functions
+
+            creation:
+                //function statement
+                function add(x,y){
+                    return x + y;
+                }
+
+                //function expression
+                var add = function(){
+                    return x + y;
+                }
+
+            implicit values in a function
+                - arguments
+                    array like object with all the values passed as arguments
+                        index is supported (arguments[0], arguments[1].....)
+                        length attribute (# of arguments)
+
+                - this (invocation context)
+
+            invocation context (this)
+                It doesnot matter WHERE a function is OR WHO owns a function
+                What matters is "how the function is invoked"
+
+                Function Invocation Patterns
+                    - Invoked as a method of an object (obj)
+                        this -> obj
+
+                    - Invoked as a function
+                        this -> global (window)
+
+                    - Using the 'call' method of the function
+
+                    - Using the 'apply' method of the function
+
+                    - As an 'Immediately Invoked Function Expression' - IIFE
+
+                    - Using the 'new' keyword
+
+
+add(10,20)
+add(10,'20')
+add(10,'abc')
+add([10,20], [30,40])
+add([10,20], [30,'40'])
+add([10,20], [30,['40', 50]])
+add([10,20], [30,['40', 'abc']])
+add(function(){ return [10,20];} , function(){ return [30,['40', 'abc']]; })
+add([function(){ return [10,20];} , function(){ return [30,['40', 'abc']]; }])
+add(function(){ return [function(){ return [10,20];} , function(){ return [30,['40', 'abc']]; }];})
+add(10)
+add()
+add(10,20,30,40,50)
+
+http://bit.ly/javascript-training-videos
+
+function add(){ 
+    function parseArg(n){
+        if (typeof n === 'function') return parseArg(n());
+        if (Array.isArray(n)) return add.apply(this, n)
+        return isNaN(n) ? 0 : parseInt(n);
+    }
+    return arguments.length <= 1 ? parseArg(arguments[0]) : parseArg(arguments[0]) + add([].slice.call(arguments, 1))
+}
+
+Problem
+================================================================
+create a html file "clickTracker.html" displaying a button "Track"
+Every time the button is clicked, increment a varible and display the value in the page
+
+Problem
+================================================================
+NO HTML & DOM
+ONLY JavaScript
+
+var spinner = /*.....*/
+// up(), down()
+spinner.up() => 1
+spinner.up() => 2
+spinner.up() => 3
+spinner.up() => 4
+
+spinner.donw() => 3
+spinner.donw() => 2
+spinner.donw() => 1
+spinner.donw() => 0
+spinner.donw() => -1
+
+The counter variable should be 'PRIVATE'
+
+counter = 10000
+
+spinner.counter = 10000
+
+
+A function as a class is called as 'Constructor Function' 
+(The function starts with an uppercase letter as a convention)
+     - invoked using the 'new' keyword
+        - this -> new object
+        - this -> returned by default
+
+Prototypal Inheritance
+    One object becomes a base object for a family of objects created using the same constructor function
+
+
+ES6 (ECMAScript 6, ESNext, ES2015)
+1. let
+2. const
+3. Array destructuring
+4. Rest operator (array)
+5. Spread  operator (array)
+6. Array destructuring
+7. Rest operator (array)
+8. Spread  operator (array)
+9. arrow functions
+10. template strings
+11. classes
+
+http://es6-features.org
+
+Array methods - filter, map, reduce, forEach
+
+Visual Studio Code (or any editor)
+Chrome Browser
+Node.js (14.X LTS)
+
+Application
+    Data + Presentation + UI Behavior
+
+    Component
+        Encapsulates Data + presentation + UI Behavior
+        Application = composition of components
+
+    data -> presented -> interacts 
+
+    html - Virtual DOM - DOM Tree - Presentation
+    
+
+HTML                                JSX
+Open tags are allowed               Every open tag must have a  corresponding close tag
+"for" attribute is valid            Use "htmlFor" instead
+"class" attribute is valid          Use "className" instead
+
+
+
+Greeter.prototype.render.toString()
+
+State:
+    - UI State 
+        Data used for presentation logic
+        Highly unlikely that this data is needed in other components
+        Feel free to maintain this data in the component state
+
+    - Application State
+        Data used for non ui logic
+        Highly likely that this data is needed in other components
+        DO NOT maintain this data in the component state
+
+Hooks
+    functions to manage sideeffects in functional components
+    hook functions has to start with 'use'
+    Built in hooks
+        useState
+            - manage state
+        useEffects
+            - life cycle events
+        useMemo
+            - memoized callback
+        useCallback
+        
+        useReducer
+
+ES6 Modules
+    - Everything defined in a JS/TS/JSX file is considered PRIVATE
+    - Public entities have to explicityly exported (EXPORT)
+    - Public Entities from other JS/JSX/TS files have to explicityly imported (IMPORT)
+
+installing Redux
+    npm install redux
+        OR
+    yarn add redux
+    
+Day-3 assignment
+Add the 'Projects' module to 'my-app' with 'add, list, remove' functionality
+
+
+https://www.youtube.com/watch?v=URogJAMqI2E&list=PL2OMOVtxSKTh1ZiQlsRJpsiMY3-iF44Ng&index=1
+http://bit.ly/react-videos
+
+React-Redux
+    to install
+        npm install react-redux (OR) yarn add react-redux
+    adapters between react and redux
+    - connect
+    - Provider
+
+Container Components / Smart Components
+    components that interface with the redux infrastructure (using the 'connect' api)
+    advisable to have fewere container components in an application
+
+Presentation Components / Dumb Components
+    components that have no knowledge of redux infrastructure
+    receive the data and action dispatchers from the parent component
+    any number of presentation components are allowed
+
+Middleware
+    Any logic that is common across all the actions can be implemented as a middleware
+
+component life cycle events
+    componentWillMount
+    componentDidMount
+    componentWillUpdate
+    componentWillUnmount
+
+    useEffects - hook to handle lifecycle events in functional components

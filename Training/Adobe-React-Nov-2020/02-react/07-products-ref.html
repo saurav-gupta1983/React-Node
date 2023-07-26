@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Products</title>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script src="babel.min.js"></script>
+    <script type="text/babel">
+        class Products extends React.Component{
+            state = { 
+                productNames : []
+            }
+
+            txtNewProductNameRef = React.createRef();
+
+            onAddClick = () => {
+                const { productNames } = this.state,
+                    newProductName = this.txtNewProductNameRef.current.value,
+                    newProductNames = [...productNames, newProductName] 
+                this.setState({ 
+                    productNames : newProductNames
+                }, () => {
+                    this.props.onListChange([...newProductNames]);
+                });
+                this.txtNewProductNameRef.current.value = '';
+                this.txtNewProductNameRef.current.focus();
+            }
+
+            onRemoveClick = (productToRemove) => {
+                const { productNames } = this.state,
+                    updatedProductNames = productNames.filter(product => product !== productToRemove);
+                this.setState({ productNames: updatedProductNames }, () => {
+                    this.props.onListChange([...updatedProductNames]);
+                })
+            }
+            render(){
+                const { productNames, newProductName } = this.state;
+                const  productItems = productNames.map((productName, idx) => (
+                    <li key={idx}>
+                        <span> {productName} </span>
+                        <input type="button" value="Remove" onClick={ () => this.onRemoveClick(productName)} />
+                    </li>)
+                )
+                return(
+                    <div>
+                        <h1>Products</h1>
+                        <hr/>
+                        <label htmlFor="">Product Name :</label>
+                        <input type="text" ref={this.txtNewProductNameRef} />
+                        <input type="button" value="Add New" onClick={this.onAddClick}/>
+                        <ol>
+                           {productItems}
+                        </ol>
+                    </div>
+                )
+            }
+        }
+
+        class ProductsCount extends React.Component{
+            render(){
+                return (
+                     <div>
+                        <label>Product Count : </label>
+                        <span>{this.props.data}</span>
+                    </div>
+                )
+            }
+        }
+
+        class ProductsApp extends React.Component{
+            state = { 
+                productNames : []
+            }
+            productNamesChanged = (productNames) => {
+                this.setState({ productNames : productNames })
+            }
+            render(){
+                return(
+                    <div>
+                        <ProductsCount data={this.state.productNames.length}/>
+                        <Products onListChange={this.productNamesChanged}/>
+                    </div>
+                )
+            }
+        }
+
+        ReactDOM.render(
+            <ProductsApp/>
+            , document.getElementById('root'))
+    </script>
+</head>
+<body>
+    
+    <div id="root">
+        
+    </div>
+</body>
+</html>
